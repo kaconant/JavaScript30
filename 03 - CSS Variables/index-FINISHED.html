@@ -21,20 +21,20 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-    :root {
-      --base: #ffc600;
-      --spacing: 10px;
-      --blur: 10px;
+    :root { /* 1 - entire document */
+      --base: #ffc600; /* 2 */
+      --spacing: 10px; /* 3 */
+      --blur: 10px; /* 4 */
     }
 
-    img {
-      padding: var(--spacing);
-      background: var(--base);
-      filter: blur(var(--blur));
+    img { /* 5 */
+      padding: var(--spacing); /* 6 */
+      background: var(--base); /* 7 */
+      filter: blur(var(--blur)); /* 8 */
     }
 
     .hl {
-      color: var(--base);
+      color: var(--base); /* 9 */
     }
 
     /*
@@ -60,15 +60,15 @@
   </style>
 
   <script>
-    const inputs = document.querySelectorAll('.controls input');
+    const inputs = document.querySelectorAll('.controls input'); /* 10 */
 
-    function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
-      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    function handleUpdate() { /* 11 */
+      const suffix = this.dataset.sizing || '' ; /* 14 -- dataset is already an object, everything that has data- and puts in object */
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix); /* 15 */
     }
 
-    inputs.forEach(input => input.addEventListener('change', handleUpdate));
-    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+    inputs.forEach(input => input.addEventListener('change', handleUpdate)); /* 12 */
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate)); /* 13 - will help blur it upon movement */
   </script>
 
 
