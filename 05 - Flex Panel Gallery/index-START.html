@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -35,12 +36,17 @@
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
-        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
-        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11), /* creates the snap effect */
+        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11), /* creates the snap effect */
         background 0.2s;
       font-size: 20px;
-      background-size:cover;
-      background-position:center;
+      background-size: cover;
+      background-position: center;
+      flex: 1; /* allows each panel div to take up equal space in flexbox */
+      justify-content: center; /* horizontal - centered left to right in each div */
+      align-items: center; /* verticial - centered left to right in each div */
+      display: flex;
+      flex-direction: column; /* vertically center the font in the middle */
     }
 
 
@@ -50,11 +56,25 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
+
+    /* flex children */
     .panel > * {
-      margin:0;
+      margin: 0;
       width: 100%;
-      transition:transform 0.5s;
-    }
+      transition: transform 0.5s;
+      flex: 1 0 auto; /* divides into even sections */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      }
+
+    /* manipulates top column*/
+    .panel > *:first-child { transform: translateY(-100%);} /* puts the top column off screen */
+    .panel.open-active > *:first-child { transform: translateY(0);} /* takes off translateY which allows for top column transition */
+    
+    /* manipulates bottom column*/
+    .panel > *:last-child { transform: translateY(100%);} /* puts the bottom column off screen */
+    .panel.open-active > *:last-child { transform: translateY(0);} /* takes off translateY which allows for bottom column transition */
 
     .panel p {
       text-transform: uppercase;
@@ -67,7 +87,8 @@
     }
 
     .panel.open {
-      font-size:40px;
+      flex: 5; /* when it has a class of open, it will take up 5x the amount of room vs the rest of the panels */
+      font-size: 40px;
     }
 
   </style>
@@ -102,6 +123,25 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
+    
+    function toggleOpen() {
+      console.log('Hello');
+      this.classList.toggle('open');
+    }
+
+    /* looks for proprerties in events with the word flex and then toggles them open with open-active css properties */
+    function toggleActive(e) {
+      console.log(e.propertyName);
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen)); /* If we called toggleOpen here, it would active on page load and not on click */
+
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+
 
   </script>
 
