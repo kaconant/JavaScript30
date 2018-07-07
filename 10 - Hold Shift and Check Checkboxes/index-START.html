@@ -43,7 +43,7 @@
     p {
       margin:0;
       padding:20px;
-      transition:background 0.2s;
+      transition: background 0.2s;
       flex:1;
       font-family:'helvetica neue';
       font-size: 20px;
@@ -53,10 +53,10 @@
 
 
   </style>
-   <!--
-   The following is a common layout you would see in an email client.
+  <!--
+  The following is a common layout you would see in an email client.
 
-   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+  When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
 
   -->
   <div class="inbox">
@@ -98,7 +98,37 @@
     </div>
   </div>
 
-<script>
-</script>
+  <script>
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]'); // 1
+  
+    let lastChecked; // reassigned constantly // 5
+
+    function handleCheck(e) { // 3
+      // check if they had the shift key down
+      // AND check that they are checking it and not unchecking it
+      let inBetween = false; // 8
+      if (e.shiftKey && this.checked) { // 7
+        // loop over every single checkbox
+        checkboxes.forEach(checkbox => { // 9
+          console.log(checkbox); // 4 && 10
+          // this = the box that got checked
+          if (checkbox === this || checkbox === lastChecked) { // 11
+            inBetween = !inBetween; // 12 -- flag variable that toggles
+            console.log('Starting to check what is clicked in the middle'); // 13
+          }
+
+          if (inBetween) { // 14 - once hits first one, it's true and will hold until last checked
+            checkbox.checked = true; // 15
+          }
+        });
+      }
+      
+      lastChecked = this; // 6
+    }
+
+    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck)); // 2
+  </script>
+
+
 </body>
 </html>
