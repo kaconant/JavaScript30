@@ -7,6 +7,25 @@
 </head>
 <body>
 <script>
+
+  // taking array and seeing what is input for secret code
+  const pressed = []; 
+  const secretCode = 'krissy'; 
+
+  // checks to see what key has been hit
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    pressed.push(e.key);
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    
+    // join makes it into a string
+    if (pressed.join('').includes(secretCode)) {
+      console.log('DING DING');
+      cornify_add();
+    }
+    console.log(pressed);
+  });
+
 </script>
 </body>
 </html>
