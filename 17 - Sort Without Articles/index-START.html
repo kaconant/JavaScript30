@@ -59,7 +59,6 @@
   // using strip in here allows us not to modify data
   // old version - const sortedBands = bands.sort(function(a, b) {
   const sortedBands = bands.sort((a, b) => {
-    
     return strip(a) > strip(b) ? 1 : -1;
     
     /* LONG VERSION
